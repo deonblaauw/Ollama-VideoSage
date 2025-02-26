@@ -1,38 +1,11 @@
 {
-  "video_path": "/Users/deonblaauw/Github/OSIRIS/Ollama-VideoSage/times-square.mp4",
+  "video_path": "/Users/deonblaauw/Github/OSIRIS/Ollama-VideoSage/Motion_exp_video.mp4",
   "analysis_parameters": {
     "fps_sample_rate": 5,
     "batch_size": 8,
     "blur_threshold": 4
   },
-  "frame_descriptions": [
-    {
-      "frame_number": 0,
-      "timestamp": 0.0,
-      "description": "In this frame, a busy urban scene at night can be observed, likely near Times Square in New York City. Several people are walking across the street under umbrellas, indicating it might have been raining recently. Multiple brightly lit billboards and advertisements from brands like Pepsi Max, Whiskies', JVC, and others line the streets above them.\n\nYellow taxis and an SUV can be seen driving on a wet road reflecting the city lights, suggesting recent rain or ongoing light drizzle. The traffic signals are visible with some showing yellow arrows. Overall, it depicts a typical bustling atmosphere in Times Square at night with people navigating through a rainy street."
-    },
-    {
-      "frame_number": 150,
-      "timestamp": 5.0,
-      "description": "The image captures a bustling nighttime scene at an urban intersection, likely Times Square given the bright advertisements and recognizable brands such as JVC and Whiskies' prominently displayed on digital billboards.\n\nKey elements include:\n1. **Pedestrians**: Several individuals are walking across the street, with some holding umbrellas suggesting it might have rained recently or is still drizzling.\n2. **Traffic Lights**: Traffic lights indicate a pedestrian crossing signal (likely green) in use.\n3. **Vehicles**: There's an orange taxi and other vehicles on the road, including what appears to be a white SUV.\n4. **Advertising Billboards**: Various advertisements are lit up, adding to the vibrant cityscape.\n\nOverall, it depicts a typical busy evening scene with people navigating through traffic under illuminated billboards in a major urban area."
-    },
-    {
-      "frame_number": 300,
-      "timestamp": 10.0,
-      "description": "This image captures a bustling city intersection at night, likely Times Square in New York City. The scene shows several people walking across the street with umbrellas open due to rain. Neon lights and large digital billboards illuminate the area, displaying advertisements for various brands such as JVC, Pepsi, and others. Yellow taxis are visible on the road, adding a vibrant touch to the urban landscape. Pedestrians appear in casual attire suitable for rainy weather, including jackets and boots.\n\nThe traffic signal is showing an orange light, indicating either caution or that pedestrians should be cautious when crossing. The overall atmosphere of the scene conveys the hustle and bustle typical of city life during nighttime rain."
-    },
-    {
-      "frame_number": 450,
-      "timestamp": 15.0,
-      "description": "The image depicts a bustling nighttime scene at Times Square, New York City during rainfall. The area is illuminated by various large electronic billboards and advertisements displaying vibrant colors and dynamic content. Several people are seen walking through the street with umbrellas to shield themselves from the rain.\n\nKey details include:\n1. **Urban Setting**: A busy urban environment with tall buildings surrounding the square.\n2. **Billboards**: Brightly lit digital displays advertising products, events, or media such as JVC and Pepsi.\n3. **Traffic Lights**: Traffic lights are visible above the street, indicating a controlled intersection.\n4. **People**: Multiple individuals walking in the rain; some carry umbrellas while others use ponchos.\n5. **Vehicles**: Yellow taxis and other vehicles navigate through the wet streets.\n\nThe overall atmosphere is lively yet slightly chaotic due to the weather conditions."
-    }
-  ],
-  "segment_descriptions": [
-    {
-      "start_time": 0.0,
-      "end_time": 15.0,
-      "description": "This video segment captures a bustling nighttime scene at Times Square, New York City, during light rain. The vibrant urban setting is illuminated by bright neon lights and large digital billboards showcasing advertisements for various brands such as JVC, Pepsi, Whiskies', and others. \n\nThe scene focuses on pedestrians navigating through the busy intersection, with many carrying umbrellas to shield themselves from the rain. Yellow taxis and other vehicles are visible on the wet roads, reflecting city lights. The traffic signals indicate pedestrian crossing instructions, adding to the lively yet slightly chaotic atmosphere of Times Square during a light drizzle in the evening hours."
-    }
-  ],
-  "final_description": "In the heart of New York City's vibrant Times Square, this single-scene video captures a bustling nighttime scene under a light rain. Pedestrians navigate the busy intersection, their umbrellas providing shelter from the drizzle. The urban landscape is aglow with neon lights and digital billboards promoting various brands, creating a lively atmosphere. Yellow taxis and wet roads reflect city lights, adding to the slightly chaotic but captivating ambiance of Times Square during this evening storm."
+  "frame_descriptions": [],
+  "segment_descriptions": [],
+  "final_description": "A person demonstrates a laboratory process involving two bottles and a pipette. They start by displaying the bottles, then proceed to open the larger bottle and prepare to transfer liquid from it. Using the pipette, they carefully draw liquid and transfer it into the smaller bottle. Afterward, they replace caps on both bottles, ensuring everything is sealed. The individual checks their tools and continues to focus on precise measurements, showcasing attention to detail in the procedure. The actions emphasize careful handling and measurement in a laboratory context."
 }

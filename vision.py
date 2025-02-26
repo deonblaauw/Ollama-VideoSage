@@ -11,6 +11,9 @@ import asyncio
 import edge_tts
 import tempfile
 import sys
+import re
+import base64
+from openai import OpenAI
 
 class VideoAnalyzer:
     def __init__(self, config):
@@ -29,6 +32,9 @@ class VideoAnalyzer:
         # AI Model settings
         self.vision_model = config['vision_model']
         self.text_model = config['text_model']
+        self.use_openai = config.get('use_openai', False)
+        if self.use_openai:
+            self.openai_client = OpenAI()
         
         # Prompts
         self.frame_prompt = config['prompts']['frame']
@@ -175,6 +181,12 @@ class VideoAnalyzer:
                 }]
             )
             combined = response['message']['content']
+            
+            # Remove any text between <think> tags
+            combined = re.sub(r'<think>.*?</think>', '', combined, flags=re.DOTALL)
+            # Clean up any extra whitespace that might be left
+            combined = re.sub(r'\s+', ' ', combined).strip()
+            
             print(f"✓ Combined description: {combined[:150]}...")
             return combined
         except Exception as e:
@@ -284,6 +296,52 @@ class VideoAnalyzer:
         except Exception as e:
             print(f"✗ Error speaking description: {str(e)}")
 
+    async def encode_image(self, image_path):
+        """Encode image to base64 for OpenAI API"""
+        with open(image_path, "rb") as image_file:
+            return base64.b64encode(image_file.read()).decode("utf-8")
+
+    async def analyze_frames_openai(self, frames_to_process):
+        """Analyze all frames at once using OpenAI's vision model"""
+        print(f"\nAnalyzing frames with OpenAI {self.vision_model}...")
+        
+        # Prepare the message content
+        content = [{"type": "text", "text": self.final_prompt}]
+        
+        # Add all images to the content
+        for frame_number, frame_path, timestamp in frames_to_process:
+            base64_image = await self.encode_image(frame_path)
+            content.append({
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{base64_image}"
+                }
+            })
+        
+        try:
+            response = self.openai_client.chat.completions.create(
+                model=self.vision_model,
+                messages=[{
+                    "role": "user",
+                    "content": content
+                }],
+                max_tokens=1000
+            )
+            
+            description = response.choices[0].message.content
+            
+            # Remove any text between <think> tags
+            description = re.sub(r'<think>.*?</think>', '', description, flags=re.DOTALL)
+            # Clean up any extra whitespace
+            description = re.sub(r'\s+', ' ', description).strip()
+            
+            self.final_description = description
+            print(f"\n✓ Final description from OpenAI: {description[:150]}...")
+            
+        except Exception as e:
+            print(f"✗ Error analyzing frames with OpenAI: {str(e)}")
+            self.final_description = "Failed to generate video description."
+
     async def analyze_video(self):
         """Main method to run the complete video analysis"""
         print(f"\nAnalyzing video: {self.video_path}")
@@ -292,9 +350,16 @@ class VideoAnalyzer:
         print(f"Sampling 1 frame every {self.fps_sample_rate} second(s)")
         
         frames_to_process = self.extract_frames()
-        await self.analyze_frames(frames_to_process)
-        await self.create_segment_descriptions()
-        await self.create_final_description()
+        
+        if self.use_openai:
+            # For OpenAI, we send all frames at once and get a single description
+            await self.analyze_frames_openai(frames_to_process)
+        else:
+            # For Ollama, we process frames individually and combine descriptions
+            await self.analyze_frames(frames_to_process)
+            await self.create_segment_descriptions()
+            await self.create_final_description()
+        
         self.save_results()
         
         print("\nAnalysis complete!")
@@ -331,24 +396,33 @@ async def main():
         "blur_threshold": 4,     # Blur detection sensitivity
         
         # AI Models
-        "vision_model": "minicpm-v:latest",  # Model for analyzing frames
-        "text_model": "command-r7b:latest",  # Model for combining descriptions
+        "vision_model": "gpt-4o-mini",  # OpenAI's vision model
+        #"vision_model": "minicpm-v:latest",  # Model for analyzing frames
+        "text_model": "command-r7b:latest",      # Model for combining descriptions (Ollama)
+        "use_openai": True,                      # Set to True to use OpenAI, False for Ollama
         
         # Prompts
         "prompts": {
             # Prompt for analyzing individual frames
-            "frame": "Describe what is happening in this frame of the video. Focus on the main action or subject.",
+            "frame": "Describe what is happening in this frame of the video. "
+                    "Focus on the main action or subject. "
+                    "NEVER describe anything that's not visible in the frame. "
+                    "NEVER mention any times or dates. "
+                    "NEVER make up names for people or characters.",
             
             # Prompt for combining frames into segment descriptions
             "segment": "Combine these frame descriptions into a coherent description of this video segment. "
-                      "Focus on the main events and progression of action."
-                      "NEVER mention any times or dates.",
+                    "Focus on the main events and progression of action. "
+                    "NEVER mention any times or dates. "
+                    "NEVER make up names for people or characters.",
             
             # Prompt for creating the final video description
-            "final": "Create a concise summary of the entire video based on these segment descriptions. "
-                    "Provide a coherent narrative that captures the main events and progression of the video. "
-                    "NEVER mention any times or dates."
-                    "This is a single scene video, so don't mention anything about other scenes."
+            "final": "These images are frames from a video in chronological order. "
+                    "Create a concise summary of what happens in the video based on these frames. "
+                    "Focus on the main events and progression of action. "
+                    "NEVER mention any times or dates. "
+                    "NEVER make up names for people or characters. "
+                    "This is a single scene video, so don't mention anything about scenes or frames. "
                     "Do not include any additional information, just the summary."
         }
     }
