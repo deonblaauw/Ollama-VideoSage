@@ -32,9 +32,9 @@ graph TD
     K --> L[Text-to-Speech]
     H --> L
     
-    style F fill:#ff9999
-    style G fill:#99ff99
-    style L fill:#9999ff
+    style F fill:#ff9999,color:black
+    style G fill:#99ff99,color:black
+    style L fill:#9999ff,color:black
 ```
 
 The video analysis pipeline follows these steps:
