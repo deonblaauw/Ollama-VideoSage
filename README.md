@@ -15,6 +15,41 @@ A powerful video analysis tool that uses AI vision models (OpenAI or Ollama) to 
 - 🖼️ Organized frame storage with blur detection
 - ⚡ Configurable frame sampling rate and batch processing
 
+## Architecture
+
+```mermaid
+graph TD
+    A[Input Video] --> B[Frame Extraction]
+    B --> C[Blur Detection]
+    C --> D[Non-Blurry Frames]
+    C --> E[Blurry Frames]
+    E --> F[Discard]
+    D --> G[Vision Model Analysis]
+    G --> |OpenAI Path| H[Direct Final Description]
+    G --> |Ollama Path| I[Frame Descriptions]
+    I --> J[Segment Descriptions]
+    J --> K[Final Description]
+    K --> L[Text-to-Speech]
+    H --> L
+    
+    style F fill:#ff9999
+    style G fill:#99ff99
+    style L fill:#9999ff
+```
+
+The video analysis pipeline follows these steps:
+
+1. **Frame Extraction**: Video is processed to extract frames at specified intervals
+2. **Blur Detection**: Each frame is analyzed for blur using Laplacian variance
+3. **Frame Selection**: Blurry frames are discarded, clear frames proceed
+4. **Vision Model Analysis**: 
+   - **OpenAI Path**: All frames are analyzed together for a direct final description
+   - **Ollama Path**: Each frame is analyzed individually, then combined into segments
+5. **Description Generation**:
+   - Individual frame descriptions are combined into segment descriptions
+   - Segment descriptions are combined into a final video description
+6. **Text-to-Speech**: Final description is converted to speech
+
 ## Installation
 
 1. Clone the repository:
