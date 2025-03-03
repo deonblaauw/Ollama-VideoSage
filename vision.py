@@ -167,7 +167,7 @@ class VideoAnalyzer:
 
     async def analyze_frames(self, frames_to_process):
         """Analyze all selected frames"""
-        print(f"\nAnalyzing frames with {self.vision_model}...")
+        print(f"\nAnalyzing frames with Vision Model {self.vision_model}...")
         self.frame_descriptions = []
         total_frames = len(frames_to_process)
         
@@ -327,7 +327,7 @@ class VideoAnalyzer:
 
     async def analyze_frames_openai(self, frames_to_process):
         """Analyze all frames at once using OpenAI's vision model"""
-        print(f"\nAnalyzing frames with OpenAI {self.vision_model}...")
+        print(f"\nAnalyzing frames with Vision Model {self.vision_model}...")
         
         # Prepare the message content
         content = [{"type": "text", "text": self.final_prompt}]
@@ -363,7 +363,7 @@ class VideoAnalyzer:
             print(f"\n✓ Final description from OpenAI: {description[:150]}...")
             
         except Exception as e:
-            print(f"✗ Error analyzing frames with OpenAI: {str(e)}")
+            print(f"✗ Error analyzing frames with Vision Model: {str(e)}")
             self.final_description = "Failed to generate video description."
 
     async def analyze_video(self):
