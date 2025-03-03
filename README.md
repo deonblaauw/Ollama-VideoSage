@@ -25,15 +25,19 @@ graph TD
     C --> E[Blurry Frames]
     E --> F[Discard]
     D --> G[Vision Model Analysis]
-    G --> |OpenAI Path| H[Direct Final Description]
-    G --> |Ollama Path| I[Frame Descriptions]
-    I --> J[Segment Descriptions]
-    J --> K[Final Description]
+    G --> |OpenAI Path| H["Direct Final Description<br/>(GPT-4V)"]
+    G --> |Ollama Path| I["Frame Descriptions<br/>(MiniCPM-V)"]
+    I --> J["Segment Descriptions<br/>(Command-R)"]
+    J --> K["Final Description<br/>(Command-R)"]
     K --> L[Text-to-Speech]
     H --> L
     
     style F fill:#ff9999,color:black
     style G fill:#99ff99,color:black
+    style H fill:#99ff99,color:black
+    style I fill:#99ff99,color:black
+    style J fill:#99ff99,color:black
+    style K fill:#99ff99,color:black
     style L fill:#9999ff,color:black
 ```
 
