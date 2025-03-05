@@ -168,7 +168,7 @@ class VideoAnalyzer:
     async def analyze_frames(self, frames_to_process):
         """Analyze all selected frames"""
         print(f"\nAnalyzing frames with Vision Model {self.vision_model}...")
-        self.frame_descriptions = []
+        self.frame_descriptions = [] 
         total_frames = len(frames_to_process)
         
         with tqdm(total=total_frames, desc="Analyzing frames") as pbar:
